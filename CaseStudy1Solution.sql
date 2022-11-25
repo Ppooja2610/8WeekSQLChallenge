@@ -19,3 +19,10 @@ on s.product_id=u.product_id
 )
 SELECT DISTINCT customer_id,product_name FROM CTE_ITEM
 WHERE rank_num=1
+
+--Q4.What is the most purchased item on the menu and how many times was it purchased by all customers?
+SELECT product_name,COUNT(s.product_id) AS Number_Orders FROM sales s INNER JOIN menu u
+on s.product_id=u.product_id
+GROUP BY product_name
+ORDER BY Number_Orders DESC
+LIMIT 1
