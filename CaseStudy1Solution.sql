@@ -9,3 +9,13 @@ SELECT customer_id,COUNT(DISTINCT(order_date)) as Num_Days
 FROM sales
 GROUP BY 1
 ORDER BY 1
+
+--Q3.What was the first item from the menu purchased by each customer?
+WITH CTE_ITEM AS (
+SELECT customer_id,order_date,s.product_id,product_name,
+	RANK() OVER (PARTITION BY customer_id ORDER BY order_date ASC) AS rank_num
+FROM sales s INNER JOIN menu u
+on s.product_id=u.product_id
+)
+SELECT DISTINCT customer_id,product_name FROM CTE_ITEM
+WHERE rank_num=1
