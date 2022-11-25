@@ -26,3 +26,16 @@ on s.product_id=u.product_id
 GROUP BY product_name
 ORDER BY Number_Orders DESC
 LIMIT 1
+
+--Q5.Which item was the most popular for each customer?
+WITH CTE_Popular AS (
+		SELECT s.customer_id,s.product_id,m.product_name,COUNT(*) ,
+		RANK() OVER (PARTITION BY s.customer_id ORDER BY COUNT(*) DESC ) AS rank_num
+		FROM sales s LEFT JOIN menu m
+		ON s.product_id=m.product_id
+		GROUP BY s.customer_id,s.product_id,m.product_name
+		ORDER BY s.customer_id
+		)
+SELECT * FROM CTE_Popular
+WHERE rank_num=1
+GROUP BY (CTE_Popular.customer_id, CTE_Popular.product_id, CTE_Popular.product_name)
