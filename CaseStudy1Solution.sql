@@ -68,3 +68,13 @@ WITH CTE_firstorder AS (
 SELECT customer_id,product_name FROM CTE_firstorder
 WHERE rank_num=1
 GROUP BY (customer_id,product_name)
+
+--Q8.What is the total items and amount spent for each member before they became a member?
+SELECT s.customer_id,COUNT(product_name) AS Total_Items,CONCAT('$',SUM(price)) AS Total_Price 
+FROM sales s INNER JOIN  members m
+		ON s.customer_id=m.customer_id
+		INNER JOIN menu u 
+		ON s.product_id=u.product_id
+		WHERE s.order_date<m.join_date
+		GROUP BY s.customer_id
+		ORDER BY s.customer_id
