@@ -39,3 +39,17 @@ WITH CTE_Popular AS (
 SELECT * FROM CTE_Popular
 WHERE rank_num=1
 GROUP BY (CTE_Popular.customer_id, CTE_Popular.product_id, CTE_Popular.product_name)
+
+--Q6.Which item was purchased first by the customer after they became a member?
+WITH CTE_firstorder AS (
+		SELECT s.customer_id
+		,u.product_name
+		,RANK() OVER (PARTITION BY s.customer_id ORDER BY order_date) AS rank_num
+		FROM sales s INNER JOIN  members m
+		ON s.customer_id=m.customer_id
+		INNER JOIN menu u 
+		ON s.product_id=u.product_id
+		WHERE s.order_date>=m.join_date
+)
+SELECT customer_id,product_name FROM CTE_firstorder
+WHERE rank_num=1
