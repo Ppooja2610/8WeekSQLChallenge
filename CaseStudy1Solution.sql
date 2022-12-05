@@ -90,4 +90,24 @@ INNER JOIN menu u
 ON u.product_id=s.product_id
 WHERE order_date>join_date
 GROUP BY s.customer_id
-ORDER BY s.customer_id		
+ORDER BY s.customer_id	
+
+--Q10.In the first week after a customer joins the program (including their join date)
+--they earn 2x points on all items, not just sushi 
+-- how many points do customer A and B have at the end of January?
+WITH CTE_members AS(
+SELECT customer_id,join_date,
+join_date+6 as last_date
+	from members)
+SELECT s.customer_id,
+	SUM (CASE 	WHEN order_date BETWEEN join_date AND last_date THEN (u.price*20)
+				WHEN (order_date NOT BETWEEN join_date AND last_date) AND u.product_name='sushi' THEN (u.price*20)  
+				WHEN (order_date NOT BETWEEN join_date AND last_date) AND u.product_name!='sushi' THEN (u.price*10) END) AS total_points
+FROM sales s 
+INNER JOIN  menu u 
+ON s.product_id=s.product_id
+INNER JOIN CTE_members c 
+ON c.customer_id=s.customer_id
+WHERE order_date>=join_date AND join_date<= '2021-01-31'
+GROUP BY s.customer_id
+ORDER BY s.customer_id
