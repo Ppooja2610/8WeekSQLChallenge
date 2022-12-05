@@ -78,3 +78,16 @@ FROM sales s INNER JOIN  members m
 		WHERE s.order_date<m.join_date
 		GROUP BY s.customer_id
 		ORDER BY s.customer_id
+		
+--Q9.If each $1 spent equates to 10 points and sushi has a 2x points multiplier
+-- how many points would each customer have?
+SELECT s.customer_id,SUM(u.price) AS Total_Price,
+  SUM(CASE WHEN (u.product_name='curry' OR  u.product_name='ramen') THEN (u.price*10)
+				ELSE (u.price*20) END) as Total_Points
+FROM sales s LEFT JOIN members m 
+ON s.customer_id=m.customer_id
+INNER JOIN menu u 
+ON u.product_id=s.product_id
+WHERE order_date>join_date
+GROUP BY s.customer_id
+ORDER BY s.customer_id		
