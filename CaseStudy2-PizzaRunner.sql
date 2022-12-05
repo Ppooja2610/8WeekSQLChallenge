@@ -24,3 +24,10 @@ SUM (CASE WHEN pizza_id=2 THEN 1 ELSE 0 END) AS Number_of_Vegetarian
 FROM customer_orders
 GROUP BY customer_id
 ORDER BY customer_id
+-------------------------------------------------
+--Q6.What was the maximum number of pizzas delivered in a single order?
+SELECT order_id,COUNT(pizza_id) 
+FROM customer_orders
+GROUP BY order_id
+ORDER BY COUNT(pizza_id) DESC
+LIMIT 1
