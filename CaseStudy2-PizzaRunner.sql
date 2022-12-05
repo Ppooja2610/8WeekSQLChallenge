@@ -26,7 +26,7 @@ GROUP BY customer_id
 ORDER BY customer_id
 -------------------------------------------------
 --Q6.What was the maximum number of pizzas delivered in a single order?
-SELECT order_id,COUNT(pizza_id) 
+SELECT order_id,COUNT(pizza_id) AS Maximium_Pizzas
 FROM customer_orders
 GROUP BY order_id
 ORDER BY COUNT(pizza_id) DESC
