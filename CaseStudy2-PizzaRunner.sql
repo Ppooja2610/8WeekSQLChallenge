@@ -17,3 +17,10 @@ FROM customer_orders
 GROUP BY pizza_id
 ORDER BY pizza_id
 --------------------------------------------------
+--Q5.How many Vegetarian and Meatlovers were ordered by each customer?
+SELECT customer_id,
+SUM (CASE WHEN pizza_id=1 THEN 1 ELSE 0 END) AS Number_of_Meatlovers,
+SUM (CASE WHEN pizza_id=2 THEN 1 ELSE 0 END) AS Number_of_Vegetarian
+FROM customer_orders
+GROUP BY customer_id
+ORDER BY customer_id
