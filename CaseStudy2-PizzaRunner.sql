@@ -31,3 +31,12 @@ FROM customer_orders
 GROUP BY order_id
 ORDER BY COUNT(pizza_id) DESC
 LIMIT 1
+--------------------------------------------------
+
+--Q7.For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+SELECT customer_id,SUM (CASE WHEN exclusions='' OR extras='' THEN 1 ELSE 0 END) AS Pizza_Nochanges,
+SUM (CASE WHEN exclusions IS NOT NULL AND extras IS NOT NULL THEN 1 ELSE 0 END) AS Pizza_Withchanges
+FROM customer_orders
+GROUP BY customer_id
+ORDER BY customer_id
+---------------------------------------------------------------
