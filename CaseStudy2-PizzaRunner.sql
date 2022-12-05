@@ -1,3 +1,12 @@
+--Sample Queries
+SELECT * FROM runners
+SELECT * FROM customer_orders
+SELECT * FROM runner_orders
+SELECT * FROM pizza_names 
+SELECT * FROM pizza_recipes 
+SELECT * FROM pizza_toppings
+
+
 --Q1.How many pizzas were ordered?
 SELECT COUNT(pizza_id) AS Total_Pizzas FROM customer_orders
 ----------------------------------------------------
