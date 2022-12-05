@@ -40,3 +40,12 @@ FROM customer_orders
 GROUP BY customer_id
 ORDER BY customer_id
 ---------------------------------------------------------------
+--Q8.How many pizzas were delivered that had both exclusions and extras?
+SELECT customer_id,
+SUM (CASE WHEN exclusions IS NOT NULL AND extras IS NOT NULL THEN 1 ELSE 0 END) AS Pizza_Withchanges
+FROM customer_orders
+INNER JOIN runner_orders USING (order_id)
+WHERE cancellation IS NULL
+GROUP BY customer_id
+ORDER BY customer_id
+-----------------------------------------------------------
